@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,14 +11,17 @@ public class GameManager : MonoBehaviour
     public float enemySpawnRange = 10f;
     public GameObject[] enemies;
     public List<GameObject> enemiesList;
-    public GameObject zombie;
-    public GameObject FireW;
+    
 
     [Header("Timer Vars")]
     public TMP_Text Timer_Text;
     public float CurrentTimer;
     public float TimerInterval;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    [Header("Game Over")]
+    public GameObject GameOverScreen;
+    public TMP_Text GameOverText;
+
     void Start()
     {
         CurrentTimer = TimerInterval;
@@ -32,8 +36,7 @@ public class GameManager : MonoBehaviour
         //SpawnEnemy(enemies[index]);
 
         CurrentTimer -= Time.deltaTime;
-        Timer_Text.text = "Timer: " + CurrentTimer.ToString();
-
+        Timer_Text.text = "Timer: " + Mathf.CeilToInt(CurrentTimer).ToString();
         if (CurrentTimer <= 0f)
         {
 
@@ -55,12 +58,25 @@ public class GameManager : MonoBehaviour
 
     void EndGame()
     {
-        foreach(GameObject e in enemiesList)
+        foreach (GameObject e in enemiesList)
         {
             Destroy(e);
             //e.SetActive(false);
         }
         Destroy(player);
 
+        GameOverScreen.SetActive(true);
+
+        float finalScore = Movementv2.instance.GetScore();
+        GameOverText.text = "Game Over\nFinal Score: " + finalScore.ToString();
+
     }
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+
+    
+   
 }

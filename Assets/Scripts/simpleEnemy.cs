@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class simpleEnemy : MonoBehaviour
 {
+    public int pointValue;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,6 +19,7 @@ public class simpleEnemy : MonoBehaviour
     {
         if(collision.tag == "Weapon")
         {
+            Movementv2.instance.AddScore(pointValue);
             Destroy(this.gameObject);
         }
     }

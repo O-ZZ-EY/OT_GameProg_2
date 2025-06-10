@@ -9,7 +9,7 @@ public class Movementv2 : MonoBehaviour
     Rigidbody2D myRB;
     public float speed;
     Vector3 direction;
-    float score;
+    public float score;
     public TMP_Text Score_Text;
 
 
@@ -33,7 +33,7 @@ public class Movementv2 : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyUp(KeyCode.Mouse0) && !attackRequest)
+        if (Input.GetKeyUp(KeyCode.Mouse0) && !attackRequest)
         {
             attackRequest = true;
         }
@@ -43,9 +43,9 @@ public class Movementv2 : MonoBehaviour
     //this is where you call your functions and explain to the component what it should do
     void FixedUpdate()
     {
-        myRB.AddForce(Direction() * speed * Time.fixedDeltaTime);  
+        myRB.AddForce(Direction() * speed * Time.fixedDeltaTime);
 
-        if(attackRequest && attackTimer < .5f)
+        if (attackRequest && attackTimer < .5f)
         {
             attackTimer += Time.fixedDeltaTime;
             baseSwordSwing.enabled = true;
@@ -73,7 +73,7 @@ public class Movementv2 : MonoBehaviour
 
 
     //collision code describes logic or computations that run when specific triggers or events happen
-    void OnTriggerEnter2D(Collider2D collision)         
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Collectible")
         {
@@ -83,9 +83,20 @@ public class Movementv2 : MonoBehaviour
         }
     }
 
+    public void AddScore(int Amount)
+    {
+        score += Amount;
+        Score_Text.text = "Score:" + score.ToString();
+    }
     void AddScore()
     {
-        score++;    
+        score++;
         Score_Text.text = "Score: " + score.ToString();
+    }
+
+
+    public float GetScore()
+    {
+        return score;
     }
 }
