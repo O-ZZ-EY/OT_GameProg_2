@@ -20,6 +20,8 @@ public class Movementv2 : MonoBehaviour
     public bool attackRequest;
     public bool currentlyAttacking;
     public float attackTimer;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -37,6 +39,7 @@ public class Movementv2 : MonoBehaviour
         {
             attackRequest = true;
         }
+
     }
 
     // run your component runtime logic in Update() and/or FixedUpdate()
@@ -45,7 +48,7 @@ public class Movementv2 : MonoBehaviour
     {
         myRB.AddForce(Direction() * speed * Time.fixedDeltaTime);
 
-        if (attackRequest && attackTimer < .5f)
+        if (attackRequest && attackTimer < 1f)
         {
             attackTimer += Time.fixedDeltaTime;
             baseSwordSwing.enabled = true;
@@ -58,7 +61,8 @@ public class Movementv2 : MonoBehaviour
         }
     }
 
-    //put your logic into discrete functions that do specific tasks
+
+    #region Direction
     Vector3 Direction()
     {
 
@@ -70,8 +74,10 @@ public class Movementv2 : MonoBehaviour
 
         return direction;
     }
+    #endregion
 
 
+    #region Collectible
     //collision code describes logic or computations that run when specific triggers or events happen
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -82,7 +88,10 @@ public class Movementv2 : MonoBehaviour
             Debug.Log("Player collider");
         }
     }
+    #endregion
 
+
+    #region Score
     public void AddScore(int Amount)
     {
         score += Amount;
@@ -99,4 +108,5 @@ public class Movementv2 : MonoBehaviour
     {
         return score;
     }
+    #endregion
 }

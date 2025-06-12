@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Reaper : MonoBehaviour
+public class EnemySpawner : MonoBehaviour
 {
-    public GameObject reaper;
+    public GameObject myEnemy;
     public float range;
     public float TimerInterval;
     public float currentTimer;
@@ -36,6 +36,7 @@ public class Reaper : MonoBehaviour
         //position.z = 0f;
 
         ////Instantiate(reaper, position, Quaternion.identity);
-        myMgr.SendMessage("SpawnEnemy", reaper);
+        Debug.Log("spawning this enemy: " + myEnemy.name);
+        myMgr.SendMessage("SpawnEnemy", myEnemy);
     }
 }
