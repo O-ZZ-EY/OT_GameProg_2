@@ -1,16 +1,19 @@
 using UnityEngine;
 using TMPro;
 
-public class Movementv2 : MonoBehaviour
+public class PlayerScript : MonoBehaviour
 {
 
-    public static Movementv2 instance;
+    public static PlayerScript instance;
     //declare all the variables you'll need for this component to work
     Rigidbody2D myRB;
-    public float speed;
-    Vector3 direction;
+    public float Speed;
+    public float JumpPower;
+    Vector2 vel;
     public float score;
     public TMP_Text Score_Text;
+    float desiredX;
+    float desiredY;
 
 
 
@@ -46,8 +49,44 @@ public class Movementv2 : MonoBehaviour
     //this is where you call your functions and explain to the component what it should do
     void FixedUpdate()
     {
-        myRB.AddForce(Direction() * speed * Time.fixedDeltaTime);
+        #region Movement
 
+        vel = myRB.linearVelocity;
+
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            desiredX = Speed;
+            if (vel.x < 0) vel.x = 0;
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            desiredX = -Speed;
+            if (vel.x > 0) vel.x = 0;
+        }
+        else if (Input.GetKey(KeyCode.UpArrow))
+        {
+            desiredY = Speed;
+            if (vel.y < 0) vel.y = 0;
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            desiredY = -Speed;
+            if (vel.y < 0) vel.y = 0;
+        }
+        else
+        {
+            desiredX = 0;
+            desiredY = 0;
+        }
+        
+        vel.x = Mathf.Lerp(vel.x, desiredX, 0.3f); 
+        vel.y = Mathf.Lerp(vel.y, desiredY, 0.3f);  //My character decreases in speed when going up and down. why? can't go side to side and up simultiniously
+
+        myRB.linearVelocity = vel;
+        
+        #endregion
+
+        #region Attack Mechanic
         if (attackRequest && attackTimer < 1f)
         {
             attackTimer += Time.fixedDeltaTime;
@@ -59,22 +98,8 @@ public class Movementv2 : MonoBehaviour
             attackTimer = 0f;
             attackRequest = false;
         }
+        #endregion
     }
-
-
-    #region Direction
-    Vector3 Direction()
-    {
-
-        float h;
-        float v;
-        h = Input.GetAxis("Horizontal");
-        v = Input.GetAxis("Vertical");
-        direction = new Vector3(h, v, 0);
-
-        return direction;
-    }
-    #endregion
 
 
     #region Collectible

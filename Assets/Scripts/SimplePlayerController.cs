@@ -11,17 +11,17 @@ public class SimplePlayerController : MonoBehaviour
     //
     public enum PlayerState
     {
-        WALKING=0,
-        RUNNING=1,
-        AIRBORNE=2,
-        SWIMMING=3,
+        WALKING = 0,
+        RUNNING = 1,
+        AIRBORNE = 2,
+        SWIMMING = 3,
         IDLE = 4
     }
 
     public PlayerState myState;
     public bool jumped = false;
     public Vector3 direction;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
         mySprite = GetComponent<SpriteRenderer>();
@@ -32,7 +32,7 @@ public class SimplePlayerController : MonoBehaviour
     {
         //here in update, I'm checking player inputs to see which state I should currently be in
         //to do this we first declare a placeholder PlayerState s
-        PlayerState s = PlayerState.IDLE;
+        PlayerState s = PlayerState.IDLE;     //Why not say myState = PlayerState.IDLE;                                 Question
 
         //listen for a jump request here
         if(Input.GetKeyUp(KeyCode.Space))
@@ -41,13 +41,13 @@ public class SimplePlayerController : MonoBehaviour
             s = PlayerState.AIRBORNE;
         }
         //if I'm not jumping, the player direction input may matter, so check that second
-        else if(direction != Vector3.zero)
+        else if(direction != Vector3.zero)  //What does Vector3.zero do again?
         {
-            if (myRB.linearVelocity.magnitude > 5f)
+            if (myRB.linearVelocity.magnitude > 5f)  //What about this? what is magnitude?                                  Question
             {
                 s = PlayerState.RUNNING;
             }
-            else { s = PlayerState.WALKING; }
+            else { s = PlayerState.WALKING; }  //I'm guessing this is just checking for the speed of the player and if it's above 5 it starts RUNNING Clarification
         }
 
         //finally, run the SetState function to update the player state
@@ -59,8 +59,8 @@ public class SimplePlayerController : MonoBehaviour
     {
         //first run any functions that may CHANGE the player state
         //things like jumping, getting stunned, any events that may change the player state during a physics loop
-        if(jumped)
-        { Jump(10f); }
+        if(jumped)   
+        { Jump(10f); }   //How does this control our jump? what's the code to make the jump happen?
 
         //inside this switch statement we call movement code and functions or other functions
         //that we want to run EACH frame, depending on the current MODE of the playerState
@@ -72,7 +72,7 @@ public class SimplePlayerController : MonoBehaviour
             //SECOND - I'm setting player sprite color as a DEBUG check, I'll turn that off when I finish the game
 
             case PlayerState.WALKING:
-                //code that runs when walking goes here
+                myAnim.Play("Walking");
                 Move(1f);
                 mySprite.color = Color.green;
             break;
@@ -122,7 +122,7 @@ public class SimplePlayerController : MonoBehaviour
         SetState(PlayerState.AIRBORNE);
     }
 
-    Vector3 Direction()
+    Vector3 Direction()     //How can we implement this together with the velocity script?                                  Question
     {
         float h;
         float v;
@@ -139,7 +139,8 @@ public class SimplePlayerController : MonoBehaviour
     {
         //checks to see if we're already in the given state
         //if we are, end the function early, don't bother checking or changing state
-        if(myState == s) { return; }
+        
+        if (myState == s) { return; }   // do we need the {} for return?                                                    Question
         myState = s;
 
         switch(myState)

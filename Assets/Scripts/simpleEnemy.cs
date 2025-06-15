@@ -19,7 +19,7 @@ public class simpleEnemy : MonoBehaviour
     {
         if(collision.tag == "Weapon")
         {
-            Movementv2.instance.AddScore(pointValue);
+            PlayerScript.instance.AddScore(pointValue);
             Destroy(this.gameObject);
         }
     }

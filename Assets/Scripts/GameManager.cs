@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
 
         GameOverScreen.SetActive(true);
 
-        float finalScore = Movementv2.instance.GetScore();
+        float finalScore = PlayerScript.instance.GetScore();
         GameOverText.text = "Game Over\nFinal Score: " + finalScore.ToString();
 
     }
