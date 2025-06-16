@@ -87,7 +87,7 @@ public class PlayerScript : MonoBehaviour
         #endregion
 
         #region Attack Mechanic
-        if (attackRequest && attackTimer < 1f)
+        if (attackRequest && attackTimer < .1f)
         {
             attackTimer += Time.fixedDeltaTime;
             baseSwordSwing.enabled = true;

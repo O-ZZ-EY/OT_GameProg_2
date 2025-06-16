@@ -7,6 +7,8 @@ public class SimplePlayerController : MonoBehaviour
     Animator myAnim;
     Rigidbody2D myRB;
 
+    float speed = 5f; 
+
     //the enum is a new dataType - it's essentially an int under the hood
     //
     public enum PlayerState
@@ -52,6 +54,9 @@ public class SimplePlayerController : MonoBehaviour
 
         //finally, run the SetState function to update the player state
         SetState(s);
+        myRB.AddForce(Direction() * speed * Time.fixedDeltaTime);
+
+        myAnim.SetFloat("Speed", Mathf.Abs(myRB.linearVelocity.magnitude));
     }
 
     // Update is called once per frame
@@ -104,7 +109,7 @@ public class SimplePlayerController : MonoBehaviour
 
     public void Move(float s)
     {
-       //added speed or move the player (grounded move)
+
     }
 
     public void Swim(float s)
